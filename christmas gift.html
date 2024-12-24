@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Riddle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e8b57; /* Dark green background */
+            background-image: url('https://images.unsplash.com/photo-1607638181517-14b8a2a37f84'); /* Christmas tree image */
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: white;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: auto;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #fff;
+        }
+        .hint-container {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .stanza {
+            display: none; /* Initially hidden */
+            margin-top: 10px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .hint-button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: left;
+        }
+        .hint-button:hover {
+            background-color: #e63900;
+        }
+        .input-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .input-section input {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .input-section button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .input-section button:hover {
+            background-color: #e63900;
+        }
+        .result {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .final-message {
+            margin-top: 20px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Christmas Riddle</h1>
+
+        <!-- Directly visible introduction -->
+        <div>
+            <p>An evening awaits, secret and fine,<br>
+            but only a riddle will give you the sign.</p>
+        </div>
+
+        <!-- Hint-Buttons with stanzas -->
+        <div class="hint-container">
+            <button class="hint-button" id="hintButton1" onclick="showStanza(1)">Hint 1</button>
+            <div class="stanza" id="stanza1">
+                <p>Waves and warmth, architecture unique,<br>
+                a place of calm, the rest we seek.<br>
+                There we’ll unwind, just you and me,<br>
+                the answer? Found poetically.</p>
+            </div>
+
+            <button class="hint-button" id="hintButton2" onclick="showStanza(2)" disabled>Hint 2</button>
+            <div class="stanza" id="stanza2">
+                <p>But this day is more than just a date,<br>
+                the 27th holds a special weight.<br>
+                A moment to cherish, tender and true,<br>
+                it’s the start of something new.</p>
+            </div>
+
+            <button class="hint-button" id="hintButton3" onclick="showStanza(3)" disabled>Hint 3</button>
+            <div class="stanza" id="stanza3">
+                <p>Then comes delight, a meal to savor,<br>
+                a table set with taste and favor.<br>
+                Together, with time that’s just our own,<br>
+                will you solve the path that’s shown?</p>
+            </div>
+
+            <button class="hint-button" id="hintButton4" onclick="showStanza(4)" disabled>Hint 4</button>
+            <div class="stanza" id="stanza4">
+                <p>Take the first letter of each clue,<br>
+                and you’ll discover what’s waiting for you.</p>
+            </div>
+        </div>
+
+        <!-- Final Message (always visible after last hint) -->
+        <div class="final-message">
+            <p>Have fun solving the riddle!</p>
+        </div>
+
+        <!-- Input field and validation (only appears after all hints are shown) -->
+        <div class="input-section" id="inputSection" style="display: none;">
+            <p><strong>It’s <input type="text" id="userInput" placeholder="Enter the solution word"> time.</strong></p>
+            <button onclick="checkAnswer()">Check Answer</button>
+        </div>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        let hintIndex = 0;
+
+        // The list of valid answers
+        const validAnswers = ['date', 'us', 'relax', 'love', 'couple', 'special', 'dream', 'magic', 'cuddle', 'memory'];
+
+        function showStanza(number) {
+            if (number === hintIndex + 1) {
+                var stanza = document.getElementById('stanza' + number);
+                if (stanza) {
+                    stanza.style.display = 'block';
+                    hintIndex++;
+                    if (hintIndex < 4) {
+                        document.getElementById('hintButton' + (hintIndex + 1)).disabled = false;
+                    } else {
+                        document.getElementById('inputSection').style.display = 'block';
+                    }
+                }
+            }
+        }
+
+        function checkAnswer() {
+            var userAnswer = document.getElementById('userInput').value.toLowerCase();
+            var resultElement = document.getElementById('result');
+
+            if (validAnswers.includes(userAnswer)) {
+                resultElement.style.display = 'block';
+                resultElement.textContent = "Correct! You solved the riddle. It’s " + userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1) + " time!";
+                
+                // Open a new window with a custom congratulatory message
+                window.open("", "_blank").document.write(`
+                    <html>
+                    <head>
+                        <title>Congratulations!</title>
+                        <style>
+                            body {
+                                font-family: 'Georgia', serif;
+                                background-color: #aee1f9; /* Light blue background */
+                                color: #2c3e50;
+                                text-align: center;
+                                padding: 50px;
+                                margin: 0;
+                            }
+                            h1 {
+                                font-size: 36px;
+                                color: #2c3e50;
+                            }
+                            p {
+                                font-size: 20px;
+                                line-height: 1.6;
+                            }
+                            a {
+                                color: #3498db;
+                                text-decoration: none;
+                                font-weight: bold;
+                            }
+                            a:hover {
+                                text-decoration: underline;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Congratulations, you've solved the riddle!</h1>
+                        <p>You did it! Your prize is waiting for you: an unforgettable day in the beautiful mountains of Vals, perfect for relaxation and enjoyment.</p>
+                        <p><strong>Your Prize:</strong> <a href="https://7132.com/de/therme/besucher/?gad_source=1&gclid=Cj0KCQiA1Km7BhC9ARIsAFZfEIsOAMFH7fuBtWMVsvy9u9auNZ7W8CILLSalid-0iFYHl_dPx5CICU0aAp_SEALw_wcB" target="_blank">Therme Vals - A Day of Relaxation</a></p>
+                        <p>On December 27, 2024, a special day for you and me, you’ll enjoy a relaxing day at the Therme Vals. Immerse yourself in the healing thermal waters, surrounded by majestic Alpine peaks, and enjoy the calming atmosphere of this unique spa.</p>
+                        <p><strong>The Perfect Ending:</strong> <a href="https://www.hotel-steinbock.ch/restaurant" target="_blank">Hotel Steinbock Restaurant</a></p>
+                        <p>After a relaxing day at the Therme, a delicious dinner awaits you at a traditional Bündner restaurant nearby. Treat yourself to regional specialties and enjoy a cozy evening at the Hotel Steinbock Restaurant.</p>
+                        <p>This special day is not only your prize but also a wonderful occasion for you and me to share this moment together.</p>
+                        <p>You are my MVPIML and I love you.</p>
+                        <p>Your Sev</p>
+                    </body>
+                    </html>
+                `);
+            } else {
+                resultElement.style.display = 'block';
+                resultElement.textContent = "Incorrect! Please try again.";
+            }
+        }
+    </script>
+
+</body>
+</html>
